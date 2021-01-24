@@ -10,13 +10,15 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
+import { RegisterFormComponent } from './register-form/register-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
     LoginFormComponent,
-    HomeComponent
+    HomeComponent,
+    RegisterFormComponent
   ],
   imports: [
     BrowserModule,

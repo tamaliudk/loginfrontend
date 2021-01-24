@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit, Output } from '@angular/core';
+
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,7 +11,10 @@ export class NavBarComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+
+  ngOnInit() {
   }
+
+
 
 }

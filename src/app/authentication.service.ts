@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { User } from './user';
 
 
 @Injectable({ providedIn: 'root' })
@@ -20,17 +21,8 @@ export class AuthenticationService {
   }
 
 
-  login(email: string, password: string) {
-
-    console.log(email, password)
-    return this.http.post<any>('/api/authenticate', { email, password })
-      .pipe(map(user => {
-        if (user && user.token) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-        }
-
-        return user;
-      }));
+  login(user: User): Observable<any> {
+    return this.http.post<any>('http://localhost:8080/login', user);
   }
 
 
@@ -39,4 +31,11 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
   }
 
+  register(user: User): Observable<any> {
+    return this.http.post<any>('http://localhost:8080/login', user, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
 }
