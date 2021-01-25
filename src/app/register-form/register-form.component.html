@@ -1,18 +1,10 @@
 <div class="card">
     <div class="form">
         <div class="card-header">
-            Login
+            Register
         </div>
         <div class="card-body">
             <form [formGroup]="SignUpForm" (ngSubmit)="SignUpForm && onSubmit()">
-                <div class="form-group">
-                    <label for="inputEmail">Name</label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Name" formControlName="name"
-                        [ngClass]="{'is-invalid': SignUpForm.get('name').touched &&  SignUpForm.get('name').invalid  }">
-                    <div class="invalid-feedback">
-                        <div>Name is required</div>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label for="inputEmail">Username</label>
                     <input type="text" class="form-control" id="inputUsername" placeholder="Username"
@@ -41,24 +33,29 @@
                     <div *ngIf="SignUpForm.get('password').touched &&  SignUpForm.get('password').invalid"
                         class="invalid-feedback">
                         <div *ngIf="SignUpForm.get('password').errors.required">Password is required</div>
-                        <div *ngIf="SignUpForm.get('password').errors.pattern">Password must include bla bla bla</div>
+                        <div *ngIf="SignUpForm.get('password').errors.pattern">Password must include at least 8
+                            characters,
+                            a number, an upper case letter, and a lower case letter.</div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputPassword">Confirm Password</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Password"
-                        formControlName="password"
-                        [ngClass]="{'is-invalid': SignUpForm.get('password').touched &&  SignUpForm.get('password').invalid  }">
-                    <div *ngIf="SignUpForm.get('password').touched &&  SignUpForm.get('password').invalid"
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="confirmPassword"
+                        formControlName="confirmPassword"
+                        [ngClass]="{'is-invalid': SignUpForm.get('confirmPassword').touched &&  SignUpForm.get('confirmPassword').errors  }">
+                    <div *ngIf="SignUpForm.get('confirmPassword').touched &&  SignUpForm.get('confirmPassword').errors"
                         class="invalid-feedback">
-                        <div *ngIf="SignUpForm.get('password').errors.required">Password is required</div>
-                        <div *ngIf="SignUpForm.get('password').errors.pattern">Password must include bla bla bla</div>
+                        <div *ngIf="SignUpForm.get('confirmPassword').errors.required">Password confirmation is required
+                        </div>
+                        <div *ngIf="SignUpForm.get('confirmPassword').errors.passwordMismatch">Passwords must
+                            match</div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary" [disabled]="!SignUpForm.valid">Sign in</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!SignUpForm.valid">Register</button>
             </form>
+            <div *ngIf="errors" class="alert alert-danger">Registration failed</div>
         </div>
     </div>
 </div>

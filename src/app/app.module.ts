@@ -1,3 +1,5 @@
+import { BasicAuthHtppInterceptorService } from './basic-auth-interceptor.service';
+import { AuthenticationService } from './authentication.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -29,7 +31,10 @@ import { RegisterFormComponent } from './register-form/register-form.component';
     CommonModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    AuthenticationService,
+    BasicAuthHtppInterceptorService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

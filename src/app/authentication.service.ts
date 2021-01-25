@@ -4,38 +4,50 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from './user';
 
+export class JwtResponse {
+  constructor(
+    public jwttoken: string,
+  ) { }
+}
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<any>;
+
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
   }
 
+  login(email, password): Observable<any> {
 
-  public get currentUserValue() {
-    return this.currentUserSubject.value;
+    return this.http.post<any>('http://localhost:8090/token/login', { email, password }).pipe(map(
+      userData => {
+        sessionStorage.setItem('email', email);
+        const tokenStr = 'Bearer ' + userData.token;
+        sessionStorage.setItem('token', tokenStr);
+        return userData;
+      }
+
+    ));
   }
 
-
-  login(user: User): Observable<any> {
-    return this.http.post<any>('http://localhost:8080/login', user);
-  }
-
-
-  logout() {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
-  }
 
   register(user: User): Observable<any> {
-    return this.http.post<any>('http://localhost:8080/login', user, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    });
+    return this.http.post<any>('http://localhost:8090/register', user).pipe(map(
+      userData => {
+        sessionStorage.setItem('email', user.email);
+        return userData;
+      }
+
+    ));
+  }
+
+  isUserLoggedIn() {
+    const user = sessionStorage.getItem('email');
+    return !(user === null);
+  }
+
+  logOut() {
+    sessionStorage.removeItem('email');
   }
 }

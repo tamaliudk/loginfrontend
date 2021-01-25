@@ -12,9 +12,13 @@ import { User } from '../user';
 })
 export class LoginFormComponent implements OnInit {
 
+  showErrorMessage = false;
   returnUrl: string;
   loading = false;
   user = new User();
+  errors: boolean;
+  success: string;
+
 
   LoginForm = new FormGroup({
     Email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
@@ -26,10 +30,6 @@ export class LoginFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute) {
 
-
-    if (this.authService.currentUserValue) {
-      this.router.navigate(['/home']);
-    }
   }
 
   ngOnInit() {
@@ -43,17 +43,20 @@ export class LoginFormComponent implements OnInit {
   Login() {
     this.loading = true;
 
-    this.user.email = this.f.Email.value;
-    this.user.password = this.f.Password.value;
+    // this.user.email = this.f.Email.value;
+    // this.user.password = this.f.Password.value;
 
-    this.authService.login(this.user)
+    this.authService.login(this.f.Email.value, this.f.Password.value)
       .subscribe(
         data => {
-          console.log("You Did it!!!!!")
+          console.log(data);
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.loading = false;
+          this.errors = true;
         });
   }
+
+
+
 }

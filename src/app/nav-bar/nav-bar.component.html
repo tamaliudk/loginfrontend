@@ -2,6 +2,7 @@
     <a class="navbar-brand" href="#">Wiley Online Library</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <a class="nav-link" routerLink="/login">Login <span class="sr-only">(current)</span></a>
+        <a *ngIf="!authService.isUserLoggedIn()" routerLink="/login" class="nav-link">Login / Sign Up</a>
+        <a *ngIf="authService.isUserLoggedIn()" (click)="logout()" class="nav-link">Log Out</a>
     </div>
 </nav>

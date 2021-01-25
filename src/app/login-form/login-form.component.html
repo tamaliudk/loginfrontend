@@ -29,7 +29,8 @@
 
                 <button type="submit" class="btn btn-primary" [disabled]="!LoginForm.valid">Sign in</button>
             </form>
-            <a [routerLink]="['/register']" class="btn btn-link">Create new Account!</a>
+            <div *ngIf="errors" class="alert alert-danger">Login failed, Please enter a valid Email and Password</div>
+            <p class="float-right">New user? <a [routerLink]="['/register']">Register here!</a></p>
         </div>
     </div>
 
